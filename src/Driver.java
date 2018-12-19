@@ -34,26 +34,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	JLabel background;
 	String wn = "win.png";
 	JLabel win;
-	String frogimg = "frog.png";
-	String carimg = "car.png";
-	String car2img = "car2.png";
-	String truckimg = "truck.png";
-	String gameimg = "GameOver.png";
-	String car3img = "car3.png";
+	String playerimg = "player.png";
 	
 	boolean won = false;		//if the player won this variable will be set to true, else it will be false
 	
-	Frog frogger = new Frog(frogimg);
-	
-	//List of car and truck objects below
-	ArrayList<GreenCar> greenCars = new ArrayList<GreenCar>();
-
-	ArrayList<RedCar> redCars = new ArrayList<RedCar>();
-	
-	ArrayList<BlueTruck> blueTrucks = new ArrayList<BlueTruck>();
-	
-	ArrayList<BlackCar> blackCars = new ArrayList<BlackCar>();
-	
+	Player player = new Player(playerimg);
+		
 	//only do drawing for paint
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -67,55 +53,9 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	/* do not draw here */
 	public void update() {
 		
-		if(frogger.getY()<150&&frogger.getX()<350&&frogger.getX()>250) {
+		if(player.getY()<150&&player.getX()<350&&player.getX()>250) {
 			won = true;
 			win.setVisible(won);
-		}
-		
-		
-		//rectangle representation of frog
-		Rectangle frect = new Rectangle(frogger.getX(), frogger.getY(), 20, 20);
-		
-		for(int i=0; i<redCars.size(); i++) {
-			
-			//rectangle representation of all red cars
-			Rectangle obstacle = new Rectangle(redCars.get(i).getX(), redCars.get(i).getY(), 40, 20);
-			
-			//rectangle representation of all green cars
-			Rectangle obstacle2 = new Rectangle(greenCars.get(i).getX(), greenCars.get(i).getY(), 40, 20);
-			
-			//rectangle representation of all black cars
-			Rectangle obstacle4 = new Rectangle(blackCars.get(i).getX(), blackCars.get(i).getY(), 40, 20);
-			
-			//rectangle representation of all blue trucks
-			Rectangle obstacle3 = new Rectangle(blueTrucks.get(i).getX(), blueTrucks.get(i).getY(), 40, 20);
-			
-			
-			if(frect.intersects(obstacle)||frect.intersects(obstacle2)||frect.intersects(obstacle3)||frect.intersects(obstacle4)) {
-				//detected overlap between obstacles
-				frogger.reset();
-			}
-		}
-		
-		//traverse array list and tell each object to call move()
-		for(int i=0; i < redCars.size();i++) {
-			RedCar temp = redCars.get(i);
-			temp.move();
-		}
-		
-		for(int i=0; i < greenCars.size();i++) {
-			GreenCar temp = greenCars.get(i);
-			temp.move();
-		}
-		
-		for(int i=0; i < blackCars.size();i++) {
-			BlackCar temp = blackCars.get(i);
-			temp.move();
-		}
-		
-		for(int i=0; i < blueTrucks.size();i++) {
-			BlueTruck temp = blueTrucks.get(i);
-			temp.move();
 		}
 		
 		
@@ -153,56 +93,15 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 		f.addKeyListener(this);
 		f.addMouseMotionListener(this);
 		
-		JLabel scoreLabel = new JLabel("score: "+frogger.getScore());
-		scoreLabel = new JLabel("score: "+frogger.getScore());
+		JLabel scoreLabel = new JLabel("score: "+player.getScore());
+		scoreLabel = new JLabel("score: "+player.getScore());
 		scoreLabel.setForeground(Color.white);
 		scoreLabel.setBounds(50,70,100,50);
 		
 		f.add(scoreLabel);
 		
-		//add 6 Car objects to my cars arrayList
-		for(int i =0; i < 8; i++) {
-			BlueTruck newCar = new BlueTruck(truckimg);
-			newCar.setY(newCar.getY());
-			newCar.setX(i*130);
-			blueTrucks.add(newCar); //add to arraylist
-			
-			//add to frame
-			f.add(newCar.getImg());
-		}
-		
-		for(int i =0; i < 8; i++) {
-			GreenCar newCar = new GreenCar(car2img);
-			newCar.setY(newCar.getY());
-			newCar.setX(i*120);		//spreads out the spacing of the cars by multiplying the X position
-			greenCars.add(newCar); //add to arraylist
-			
-			//add to frame
-			f.add(newCar.getImg());
-		}
-		
-		for(int i =0; i < 8; i++) {
-			RedCar newCar = new RedCar(carimg);
-			newCar.setY(newCar.getY());
-			newCar.setX(i*150);
-			redCars.add(newCar); //add to arraylist
-			
-			//add to frame
-			f.add(newCar.getImg()); 
-		}
-		
-		for(int i =0; i < 8; i++) {
-			BlackCar newCar = new BlackCar(car3img);
-			newCar.setY(newCar.getY());
-			newCar.setX(i*100);
-			blackCars.add(newCar); //add to arraylist
-			
-			//add to frame
-			f.add(newCar.getImg());
-		}
-		
 		//Add Frog Character (img)
-		f.add(frogger.getImg());
+		f.add(player.getImg());
 		
 		//add background after
 		f.add(background);
@@ -218,20 +117,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener, Mouse
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if(e.getKeyCode()==38){ //38 is up
-			frogger.moveUp();
-		}
-		
-		if(e.getKeyCode()==40){ //40 is down
-			frogger.moveDown();
-		}
-		
 		if(e.getKeyCode()==39){ //39 is right
-			frogger.moveRight();
+			player.moveRight();
 		}
 		
 		if(e.getKeyCode()==37){ //37 is left
-			frogger.moveLeft();
+			player.moveLeft();
 		}
 		update();
 	}

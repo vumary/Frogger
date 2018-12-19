@@ -3,45 +3,43 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class GreenCar {
+public class Player {
 	
-	private int x, y;				//xy position of frog
-	private int dir;				//possibly need to track what dir we need to draw
-	private int width, height;		//width and height of this car
-	private JLabel img;				//
+	private int x, y;
+	private int dir;			
+	private int width, height;	
+	private JLabel img;	
+	int score =0; 	
 	
-	//add constructor that takes ina file name
-	public GreenCar(String filename) {
+	//add constructor that takes in a file name
+	public Player(String filename) {
 		String src = new File("").getAbsolutePath()+"/src/";
 		ImageIcon ghost = new ImageIcon(src+filename);
 		img = new JLabel(ghost); //connect 
 		
 		//bound img to the object
-		width = 40;
+		width = 20;
 		height = 20;
 		x = 600/2 - width/2;
-		y = 200;
+		y = 500;
 		img.setBounds(x, y, width, height);
 	}
 	
-	public void move() {
-		x+=2; //move to the right
-		
-		//check is x passes left side of frame
-		if(x>600) {
-			x = -width;	//changing x position so that car will move to the far right
-		}
-		
-		img.setBounds(x, y, width, height); //attaches the bounds to the image when we change its x position
-		
+	//return frog to original spot
+	public void reset() {
+		x = 600/2 - width/2;
+		y = 500;
+		img.setBounds(x, y, width, height);
 	}
 	
+	//move object its call on to the left
 	public void moveLeft() {
 		x-=width;
 		//moving object should update its img
 		img.setBounds(x, y, width, height);
 	}
 	
+	//move object its call on to the right
 	public void moveRight() {
 		x+=width;
 		img.setBounds(x, y, width, height);
@@ -84,7 +82,15 @@ public class GreenCar {
 	public int getWidth() {
 		return width;
 	}
+	
+	public int getScore() {
+		return score;
+	}
 
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 	public void setWidth(int width) {
 		this.width = width;
 	}
@@ -104,5 +110,8 @@ public class GreenCar {
 	public void setImg(JLabel img) {
 		this.img = img;
 	}
+	
+	
+
 
 }
